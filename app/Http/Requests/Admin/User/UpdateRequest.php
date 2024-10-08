@@ -20,7 +20,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
-            'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'email' => ['string', 'email', 'max:255', 'unique:users,email,'.$this->user_id],
+            'user_id' => ['required', 'integer', 'exists:users,id'], // TODO: figure out how to make so that hidden field is not required
             'role' => ['integer']
         ];
     }
@@ -34,6 +35,7 @@ class UpdateRequest extends FormRequest
             'email.max' => 'Почта не может превышать допустимое количество символов',
             'email.email' => 'Почта должна быть действительным адресом электронной почты',
             'email.unique' => 'Эта почта уже зарегистрирована',
+            'user_id.required' => 'Необходимо добавить скрытое поле user_id',
             'role.integer' => 'Роль должна быть целым числом',
         ];
     }

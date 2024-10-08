@@ -21,7 +21,6 @@ class StoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string'], // TODO: remove, generate and send password by email
             'role' => ['integer']
         ];
     }
@@ -37,8 +36,6 @@ class StoreRequest extends FormRequest
             'email.max' => 'Почта не может превышать допустимое количество символов',
             'email.email' => 'Почта должна быть действительным адресом электронной почты',
             'email.unique' => 'Эта почта уже зарегистрирована',
-            'password.required' => 'Пароль обязателен для заполнения',
-            'password.string' => 'Пароль должен быть строкой',
             'role.integer' => 'Роль должна быть целым числом',
         ];
     }

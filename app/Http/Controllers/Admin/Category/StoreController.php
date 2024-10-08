@@ -14,7 +14,7 @@ class StoreController extends Controller
     {
         $data = $request->validated();
 
-        $category = Category::create($data);
+        $category = Category::firstOrCreate(['name' => $data['name']], $data);
 
         return new CategoryResource($category);
     }
