@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Review;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\Review;
 
 class DestroyController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Product $product)
+    public function __invoke(Review $review)
     {
-        $product->delete();
+        $review->delete();
 
         return response()->json(['message' => 'success']);
     }

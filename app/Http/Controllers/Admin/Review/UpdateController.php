@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Review;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Product\UpdateRequest;
-use App\Http\Resources\Admin\ProductResource;
-use App\Models\Product;
+use App\Http\Requests\Admin\Review\UpdateRequest;
+use App\Http\Resources\Admin\ReviewResource;
+use App\Models\Review;
 
 class UpdateController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Product $product, UpdateRequest $request)
+    public function __invoke(Review $review, UpdateRequest $request)
     {
         $data = $request->validated();
 
-        $product->update($data);
+        $review->update($data);
 
-        return new ProductResource($product->fresh());
+        return new ReviewResource($review->fresh());
     }
 }

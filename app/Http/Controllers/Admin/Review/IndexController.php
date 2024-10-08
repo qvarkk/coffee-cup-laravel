@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Review;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\ProductResource;
-use App\Models\Product;
+use App\Http\Resources\Admin\ReviewResource;
+use App\Models\Review;
 
 class IndexController extends Controller
 {
@@ -13,8 +13,8 @@ class IndexController extends Controller
      */
     public function __invoke()
     {
-        $products = Product::all();
+        $reviews = Review::all();
 
-        return ProductResource::collection($products);
+        return ReviewResource::collection($reviews);
     }
 }
