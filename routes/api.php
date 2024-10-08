@@ -15,4 +15,12 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function 
         Route::patch('/{category}', UpdateController::class)->name('admin.category.update');
         Route::delete('/{category}', DestroyController::class)->name('admin.category.destroy');
     });
+
+    Route::namespace('Product')->prefix('products')->group(function () {
+        Route::get('/', IndexController::class)->name('admin.product.index');
+        Route::get('/{product}', ShowController::class)->name('admin.product.show');
+        Route::post('/', StoreController::class)->name('admin.product.store');
+        Route::patch('/{product}', UpdateController::class)->name('admin.product.update');
+        Route::delete('/{product}', DestroyController::class)->name('admin.product.destroy');
+    });
 });
