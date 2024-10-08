@@ -7,6 +7,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// TODO: put auth (JWT) and admin middleware
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function () {
     Route::namespace('Category')->prefix('categories')->group(function () {
         Route::get('/', IndexController::class)->name('admin.category.index');
@@ -22,5 +23,13 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function 
         Route::post('/', StoreController::class)->name('admin.product.store');
         Route::patch('/{product}', UpdateController::class)->name('admin.product.update');
         Route::delete('/{product}', DestroyController::class)->name('admin.product.destroy');
+    });
+
+    Route::namespace('User')->prefix('users')->group(function () {
+        Route::get('/', IndexController::class)->name('admin.user.index');
+        Route::get('/{user}', ShowController::class)->name('admin.user.show');
+        Route::post('/', StoreController::class)->name('admin.user.store');
+        Route::patch('/{user}', UpdateController::class)->name('admin.user.update');
+        Route::delete('/{user}', DestroyController::class)->name('admin.user.destroy');
     });
 });
