@@ -7,6 +7,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::controller(App\Http\Controllers\AuthController::class)->prefix('auth')->middleware(['api'])->group(function() {
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout');
+    Route::post('/refresh', 'refresh');
+    Route::post('/me', 'me');
+});
+
 // TODO: put auth (JWT) and admin middleware
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function () {
     Route::namespace('Category')->prefix('categories')->group(function () {

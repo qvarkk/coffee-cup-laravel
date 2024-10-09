@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Admin;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +19,9 @@ class UserResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'created_at' => $this->created_at
+            'email_verified_at' => $this->email_verified_at,
+            'created_at' => $this->created_at,
+            'role' => User::getRoles()[$this->role]
         ];
     }
 }
