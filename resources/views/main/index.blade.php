@@ -2,8 +2,6 @@
 
 @section('content')
 
-    <div class="p-5">
-        Index Page
-    </div>
+    <Index></Index>
 
 @endsection
