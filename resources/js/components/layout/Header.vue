@@ -53,8 +53,8 @@ export default {
 
     width: 100%;
     max-width: 1060px;
-    margin-right: auto;
-    margin-left: auto;
+    padding: 0 25px;
+    margin: 0 auto;
 }
 
 .user-side {

@@ -14,8 +14,8 @@ Route::controller(App\Http\Controllers\AuthController::class)->prefix('auth')->m
     Route::post('/me', 'me');
 });
 
-// TODO: put auth (JWT) and admin middleware
-Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->group(function () {
+// TODO: add admin middleware
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jwt.auth'])->group(function () {
     Route::namespace('Category')->prefix('categories')->group(function () {
         Route::get('/', IndexController::class)->name('admin.category.index');
         Route::get('/{category}', ShowController::class)->name('admin.category.show');
