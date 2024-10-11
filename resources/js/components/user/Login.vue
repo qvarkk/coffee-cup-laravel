@@ -9,8 +9,8 @@
             <label for="password">Пароль</label>
             <input v-model="password" id="password" type="password" class="form-input" placeholder="********"/>
         </div>
+        <span v-if="error" class="error">{{ error }}</span>
         <input class="form-button" @click.prevent="loginUser" type="button" value="ВОЙТИ">
-<!--        <input @click.prevent="getCategories" type="button" value="тест категорий">-->
         <span>
             Еще нет аккаунта?
             <router-link class="action-link" :to="{ name: 'user.register' }">Зарегистрироваться</router-link>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {loginUser} from "@/api/users.js"
+import {getCurrentUser, loginUser} from "@/api/users.js"
 import {get} from "@/api/categories.js"
 
 export default {
@@ -29,18 +29,20 @@ export default {
         return {
             email: null,
             password: null,
+            error: null,
         }
     },
 
+    // TODO: add router push method after logging in
     methods: {
         async loginUser() {
             let res = await loginUser(this.email, this.password);
-            localStorage.setItem('access_token', res.access_token)
-        },
-
-        async getCategories() {
-            let res = await get();
-            console.log(res);
+            if (res.status === 200) {
+                localStorage.setItem('access_token', res.data.access_token)
+                this.$router.push('admin.index')
+            } else {
+                this.error = 'Введена неверная информация для входа'
+            }
         }
     }
 }
@@ -74,6 +76,11 @@ export default {
     width: 100%;
 }
 
+.error {
+    margin-bottom: 10px;
+    color: #f8405d;
+}
+
 .form-button {
     width: 50%;
     align-self: center;
@@ -86,6 +93,8 @@ export default {
 }
 
 @media(max-width: 768px) {
-
+    .page {
+        padding: 50px 25px 0;
+    }
 }
 </style>

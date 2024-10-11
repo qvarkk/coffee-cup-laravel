@@ -11,7 +11,7 @@ api.interceptors.request.use(config => {
 
     return config
 }, error => {
-
+    return error
 });
 
 api.interceptors.response.use(config => {
@@ -36,6 +36,12 @@ api.interceptors.response.use(config => {
 
     if (error.status === 401) {
         router.push({name: 'user.login'})
+    }
+
+    return {
+        status: error.status,
+        message: error.message,
+        error: error.response.data.error
     }
 });
 

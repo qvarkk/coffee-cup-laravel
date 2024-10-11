@@ -8,6 +8,7 @@
 
 body {
     font-family: "Montserrat", sans-serif;
+    font-weight: 500;
     font-optical-sizing: auto;
     color: #473E37;
     min-width: 100vw;
@@ -32,6 +33,10 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+ul {
+    list-style: none;
 }
 
 label {

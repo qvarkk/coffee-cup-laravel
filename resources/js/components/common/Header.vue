@@ -3,8 +3,8 @@
         <div class="line-separator"></div>
         <div class="container">
             <div class="user-side">
-                <router-link class="header-link" :to="{ name: 'user.login' }">Вход</router-link>
-                <a class="header-link" href="#">Регистрация</a>
+                <router-link class="action-link" :to="{ name: 'user.login' }">Вход</router-link>
+                <a class="action-link" href="#">Регистрация</a>
             </div>
             <div class="nav-side">
                 <div class="logo">
@@ -16,11 +16,11 @@
                 </div>
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li class="header-link">Каталог &or;</li>
+                        <li class="action-link">Каталог &or;</li>
                         <!-- TODO: use svg for dropdown and add dropdown -->
-                        <li class="header-link">Доставка</li>
-                        <li class="header-link">Скидки</li>
-                        <li class="header-link">Отзывы</li>
+                        <li class="action-link">Доставка</li>
+                        <li class="action-link">Скидки</li>
+                        <li class="action-link">Отзывы</li>
                     </ul>
                 </nav>
                 <div class="user-interaction">
@@ -65,12 +65,7 @@ export default {
     padding: 23px 0 13px;
 }
 
-.header-link {
-    text-decoration: none;
-    color: #473E37;
-}
-
-.header-link:hover {
+.action-link:hover {
     text-decoration: underline;
 }
 
@@ -111,7 +106,6 @@ export default {
     font-size: 16px;
     gap: 40px;
     display: flex;
-    list-style: none;
     margin: 0;
 }
 

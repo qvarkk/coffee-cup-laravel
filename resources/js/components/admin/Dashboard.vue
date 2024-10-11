@@ -1,12 +1,12 @@
 <template>
-    <footer class="footer">
-        Footer
-    </footer>
+    <div>
+        Admin Dashboard
+    </div>
 </template>
 
 <script>
 export default {
-    name: "Footer"
+    name: "Dashboard",
 }
 </script>
 

@@ -21,7 +21,7 @@
         <input class="form-button" @click.prevent="loginUser" type="button" value="РЕГИСТРАЦИЯ">
         <span>
             Уже есть аккаунт?
-            <router-link class="action-link" :to="{ name: 'user.register' }">Войти</router-link>
+            <router-link class="action-link" :to="{ name: 'user.login' }">Войти</router-link>
         </span>
     </div>
 </template>
@@ -43,8 +43,8 @@ export default {
     },
 
     methods: {
-        async loginUser() {
-            let res = await loginUser(this.email, this.password);
+        async registerUser() {
+            let res = await registerUser(this.email, this.name, this.password, this.password_confirmation);
             localStorage.setItem('access_token', res.access_token)
         },
 

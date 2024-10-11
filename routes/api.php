@@ -32,7 +32,7 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jw
         Route::delete('/{product}', DestroyController::class)->name('admin.product.destroy');
     });
 
-    Route::namespace('User')->prefix('users')->group(function () {
+    Route::namespace('user')->prefix('users')->group(function () {
         Route::get('/', IndexController::class)->name('admin.user.index');
         Route::get('/{user}', ShowController::class)->name('admin.user.show');
         Route::post('/', StoreController::class)->name('admin.user.store');

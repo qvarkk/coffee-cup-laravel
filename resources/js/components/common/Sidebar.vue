@@ -1,10 +1,12 @@
 <template>
-    <router-view></router-view>
+    <div>
+        Sidebar
+    </div>
 </template>
 
 <script>
 export default {
-    name: "Index",
+    name: "Sidebar"
 }
 </script>
 
