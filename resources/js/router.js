@@ -12,15 +12,15 @@ const router = createRouter({
             path: '/admin',
             component: AdminLayout,
             children: [
-                { path: '/', component: Dashboard, name: 'admin.index' }
+                { path: '', component: Dashboard, name: 'admin.index' }
             ]
         },
         {
             path: '/',
             component: UserLayout,
             children: [
-                { path: '/login', component: Login, name: 'user.login' },
-                { path: '/register', component: Register, name: 'user.register' },
+                { path: 'login', component: Login, name: 'user.login' },
+                { path: 'register', component: Register, name: 'user.register' },
             ]
         },
         // TODO: make 404 component and load it
