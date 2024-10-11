@@ -28,3 +28,62 @@ body {
 .main {
     flex: 1;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+label {
+    font-weight: 600;
+}
+
+input[type=email],
+input[type=password],
+input[type=text] {
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: #F5F3EB;
+}
+
+input[type=email]:focus,
+input[type=password]:focus,
+input[type=text]:focus {
+    outline: 1px solid #756D66;
+}
+
+input[type=email]:invalid,
+input[type=password]:invalid,
+input[type=text]:invalid {
+    outline: 1px solid #f8405d;
+}
+
+input[type=button],
+input[type=submit] {
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    text-transform: uppercase;
+    background-color: #756D66;
+    color: #FFFDF5;
+    padding: 12px 0;
+}
+
+input[type=button]:hover,
+input[type=submit]:hover {
+    filter: brightness(95%);
+}
+
+input[type=button]:active,
+input[type=submit]:active {
+    filter: brightness(90%);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #F5F3EB inset !important;
+}

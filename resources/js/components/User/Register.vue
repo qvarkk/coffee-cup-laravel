@@ -1,19 +1,27 @@
 <template>
     <div class="page">
-        <h3 class="title">Вход</h3>
+        <h3 class="title">Регистрация</h3>
         <div class="form-group">
             <label for="email">Почта</label>
             <input v-model="email" id="email" type="email" class="form-input" placeholder="user@example.com"/>
         </div>
         <div class="form-group">
+            <label for="name">Имя</label>
+            <input v-model="name" id="name" type="text" class="form-input" placeholder="Иванов Иван"/>
+        </div>
+        <div class="form-group">
             <label for="password">Пароль</label>
             <input v-model="password" id="password" type="password" class="form-input" placeholder="********"/>
         </div>
-        <input class="form-button" @click.prevent="loginUser" type="button" value="ВОЙТИ">
-<!--        <input @click.prevent="getCategories" type="button" value="тест категорий">-->
+        <div class="form-group">
+            <label for="password_confirmation">Подтверждение пароля</label>
+            <input v-model="password_confirmation" id="password_confirmation" type="password" class="form-input"
+                   placeholder="********"/>
+        </div>
+        <input class="form-button" @click.prevent="loginUser" type="button" value="РЕГИСТРАЦИЯ">
         <span>
-            Еще нет аккаунта?
-            <router-link class="action-link" :to="{ name: 'user.register' }">Зарегистрироваться</router-link>
+            Уже есть аккаунт?
+            <router-link class="action-link" :to="{ name: 'user.register' }">Войти</router-link>
         </span>
     </div>
 </template>
@@ -28,7 +36,9 @@ export default {
     data() {
         return {
             email: null,
+            name: null,
             password: null,
+            password_confirmation: null,
         }
     },
 
@@ -75,7 +85,7 @@ export default {
 }
 
 .form-button {
-    width: 50%;
+    width: 75%;
     align-self: center;
     margin-bottom: 20px;
 }
@@ -85,7 +95,9 @@ export default {
     font-weight: 600;
 }
 
-@media(max-width: 768px) {
-
+@media (max-width: 768px) {
+    .page {
+        padding: 50px 25px 0;
+    }
 }
 </style>
