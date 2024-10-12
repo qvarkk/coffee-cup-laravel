@@ -67,6 +67,7 @@ input[type=text]:invalid {
 
 input[type=button],
 input[type=submit] {
+    cursor: pointer;
     font-size: 18px;
     border: none;
     border-radius: 25px;

@@ -4,6 +4,8 @@ import Register from "@/components/user/Register.vue";
 import Dashboard from "@/components/admin/Dashboard.vue";
 import AdminLayout from "@/components/layouts/AdminLayout.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
+import Homepage from "@/components/user/Homepage.vue";
+import {getCurrentUser} from "@/api/users.js";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +15,8 @@ const router = createRouter({
             component: AdminLayout,
             children: [
                 { path: '', component: Dashboard, name: 'admin.index' }
-            ]
+            ],
+            meta: { requiresAuth: true, requiresAdmin: true },
         },
         {
             path: '/',
@@ -21,6 +24,7 @@ const router = createRouter({
             children: [
                 { path: 'login', component: Login, name: 'user.login' },
                 { path: 'register', component: Register, name: 'user.register' },
+                { path: '', component: Homepage, name: 'user.index' },
             ]
         },
         // TODO: make 404 component and load it
@@ -32,20 +36,26 @@ const router = createRouter({
     ]
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
     let access_token = localStorage.getItem('access_token')
 
-    if (!access_token) {
-        if (to.name === 'admin.index') {
+    if (to.meta.requiresAdmin) {
+        const user = await getCurrentUser();
+        if (user.data.role !== 2) {
             return {
-                name: 'user.login'
+                name: 'user.index'
             }
         }
-    } else {
-        if (to.name === 'user.login') {
-            // TODO: change to main page
+    }
+
+    if (to.meta.requiresAuth && !access_token) {
+        return {
+            name: 'user.login'
+        }
+    } else if (!to.meta.requiresAuth && access_token) {
+        if (to.name === 'user.login' || to.name === 'user.register') {
             return {
-                name: 'admin.index'
+                name: 'user.index'
             }
         }
     }

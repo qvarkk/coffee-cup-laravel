@@ -10,8 +10,19 @@ import Sidebar from "@/components/common/Sidebar.vue";
 
 export default {
     name: "AdminLayout",
+
     components: {
         Sidebar,
+    },
+
+    data() {
+        return {
+            user: null,
+        }
+    },
+
+    async mounted() {
+
     }
 }
 </script>

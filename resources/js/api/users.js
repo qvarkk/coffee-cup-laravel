@@ -13,6 +13,12 @@ export async function registerUser(email, name, password, password_confirmation)
     })
 }
 
+export async function logoutUser() {
+    let res = await API.post('api/auth/logout')
+    localStorage.removeItem('access_token')
+    return res
+}
+
 export async function getCurrentUser() {
     return await API.post('api/auth/me')
 }

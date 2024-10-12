@@ -2,18 +2,24 @@
     <header class="header">
         <div class="line-separator"></div>
         <div class="container">
-            <div class="user-side">
+            <div v-if="user" class="user-side">
+                <a href=""><img src="/images/icons/user.svg" alt="User Icon"></a>
+                <span>{{ user.email }}</span>
+                <a href="" @click.prevent="logoutUser" class="action-link">Выход</a>
+            </div>
+            <div v-if="!user" class="user-side">
+                <a href="#"><img src="/images/icons/user.svg" alt="User Icon"></a>
                 <router-link class="action-link" :to="{ name: 'user.login' }">Вход</router-link>
-                <a class="action-link" href="#">Регистрация</a>
+                <router-link class="action-link" :to="{ name: 'user.register' }">Регистрация</router-link>
             </div>
             <div class="nav-side">
-                <div class="logo">
+                <router-link :to="{ name: 'user.index' }" class="logo">
                     <img src="logo.svg" alt="Coffee Cup Logo">
                     <div class="title">
                         <span class="title-medium">CUP</span>
                         coffee
                     </div>
-                </div>
+                </router-link>
                 <nav class="nav">
                     <ul class="nav-list">
                         <li class="action-link">Каталог &or;</li>
@@ -24,9 +30,9 @@
                     </ul>
                 </nav>
                 <div class="user-interaction">
-                    <div><3</div>
-                    <div><3</div>
-                    <div><3</div>
+                    <a href="#"><img src="/images/icons/search.svg" alt="Search"></a>
+                    <a href="#"><img src="/images/icons/favorites.svg" alt="Favorites"></a>
+                    <a href="#"><img src="/images/icons/basket.svg" alt="Cart"></a>
                 </div>
             </div>
         </div>
@@ -34,8 +40,34 @@
 </template>
 
 <script>
+import {getCurrentUser, logoutUser} from "@/api/users.js";
+import {useUserStore} from "@/store/userStore.js";
+
 export default {
-    name: "Header"
+    name: "Header",
+
+    setup() {
+        const userStore = useUserStore()
+        return {userStore}
+    },
+
+    computed: {
+        user() {
+            return this.userStore.user
+        }
+    },
+
+    async mounted() {
+        await this.userStore.fetchUser()
+    },
+
+    methods: {
+        async logoutUser() {
+            await logoutUser()
+            this.userStore.logout()
+            this.$router.push({ name: 'user.login' })
+        }
+    }
 }
 </script>
 
@@ -62,7 +94,8 @@ export default {
     gap: 20px;
     align-self: end;
     font-size: 16px;
-    padding: 23px 0 13px;
+    padding: 23px 0 23px;
+    align-items: center;
 }
 
 .action-link:hover {
@@ -73,7 +106,7 @@ export default {
     position: absolute;
     height: .75px;
     left: 0;
-    top: 60px;
+    top: 86px;
     width: 100vw;
     background-color: #B4B4B480;
 }

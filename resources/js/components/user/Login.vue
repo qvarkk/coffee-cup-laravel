@@ -21,9 +21,15 @@
 <script>
 import {getCurrentUser, loginUser} from "@/api/users.js"
 import {get} from "@/api/categories.js"
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
     name: "Login",
+
+    setup() {
+        const userStore = useUserStore()
+        return {userStore}
+    },
 
     data() {
         return {
@@ -33,13 +39,13 @@ export default {
         }
     },
 
-    // TODO: add router push method after logging in
     methods: {
         async loginUser() {
             let res = await loginUser(this.email, this.password);
             if (res.status === 200) {
                 localStorage.setItem('access_token', res.data.access_token)
-                this.$router.push('admin.index')
+                await this.userStore.fetchUser()
+                this.$router.push({ name: 'user.index'})
             } else {
                 this.error = 'Введена неверная информация для входа'
             }
