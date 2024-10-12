@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {getCurrentUser, logoutUser} from "@/api/users.js";
+import {logoutUser} from "@/api/users.js";
 import {useUserStore} from "@/store/userStore.js";
 
 export default {
