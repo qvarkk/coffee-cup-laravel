@@ -11,7 +11,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->prefix('auth')->m
     Route::post('/login', 'login');
     Route::post('/logout', 'logout');
     Route::post('/refresh', 'refresh');
-    Route::post('/me', 'me');
+    Route::post('/me', 'me'); // TODO: fix that expired token returns message 'Unauthorized.' instead of 'Token is expired'
 });
 
 // TODO: add admin middleware

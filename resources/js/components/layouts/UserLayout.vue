@@ -1,9 +1,9 @@
 <template>
     <Header v-if="!mobileView"></Header>
-    <HeaderMobile :class="{'out-of-screen':!showNav}" v-if="mobileView"></HeaderMobile>
+    <HeaderMobile @update-show="updateShowState" :class="{'out-of-screen':!showNav}" v-if="mobileView"></HeaderMobile>
     <main class="main" :class="{'open':showNav}">
-        <div v-if="mobileView" class="menu-button" @click="showNav = !showNav">
-            <img src="/images/icons/menu.svg" alt="Open Sidebar">
+        <div v-if="mobileView" class="menu-button">
+            <img @click="updateShowState" src="/images/icons/menu.svg" alt="Open Sidebar">
         </div>
         <router-view></router-view>
     </main>
@@ -31,6 +31,15 @@ export default {
             if (window.visualViewport.width > 768) {
                 this.showNav = false;
             }
+        },
+
+        updateShowState() {
+            this.showNav = !this.showNav
+            if (this.showNav) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'scroll';
+            }
         }
     },
 
@@ -56,6 +65,9 @@ export default {
 
 .menu-button {
     padding: 35px;
+}
+
+.menu-button > img {
     cursor: pointer;
 }
 

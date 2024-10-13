@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="container">
             <div class="logo">
-                <img src="logo.svg" alt="Coffee Cup Logo">
+                <img src="/images/logos/logo.svg" alt="Coffee Cup Logo">
                 <div class="title">
                     <span class="title-medium">CUP</span>
                     coffee
@@ -58,28 +58,6 @@ export default {
     max-width: 1060px;
     padding: 0 25px;
     margin: 0 auto;
-}
-
-.logo {
-    display: flex;
-}
-
-.logo > img {
-    max-width: 62px;
-    max-height: 59px;
-}
-
-.title {
-    font-size: 20px;
-    line-height: 20px;
-    margin-left: 7px;
-    display: flex;
-    flex-direction: column;
-    align-self: end;
-}
-
-.title-medium {
-    font-weight: 600;
 }
 
 .nav {

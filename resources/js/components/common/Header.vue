@@ -14,7 +14,7 @@
             </div>
             <div class="nav-side">
                 <router-link :to="{ name: 'user.index' }" class="logo">
-                    <img src="logo.svg" alt="Coffee Cup Logo">
+                    <img src="/images/logos/logo.svg" alt="Coffee Cup Logo">
                     <div class="title">
                         <span class="title-medium">CUP</span>
                         coffee
@@ -78,17 +78,6 @@ export default {
     box-shadow: 0 1px 13px rgba(0, 0, 0, 0.25);
 }
 
-.container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    max-width: 1060px;
-    padding: 0 25px;
-    margin: 0 auto;
-}
-
 .user-side {
     display: flex;
     gap: 20px;
@@ -96,10 +85,6 @@ export default {
     font-size: 16px;
     padding: 23px 0 23px;
     align-items: center;
-}
-
-.action-link:hover {
-    text-decoration: underline;
 }
 
 .line-separator {
@@ -116,23 +101,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 13px 0;
-}
-
-.logo {
-    display: flex;
-}
-
-.title {
-    font-size: 20px;
-    line-height: 20px;
-    margin-left: 7px;
-    display: flex;
-    flex-direction: column;
-    align-self: end;
-}
-
-.title-medium {
-    font-weight: 600;
 }
 
 .nav-list {

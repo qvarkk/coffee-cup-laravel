@@ -1,3 +1,5 @@
+@import url("https://use.fontawesome.com/releases/v6.6.0/css/all.css");
+
 *,
 *::before,
 *::after {
@@ -39,6 +41,48 @@ a {
     cursor: pointer;
 }
 
+.action-link:hover {
+    text-decoration: underline;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 1060px;
+    padding: 0 25px;
+    margin: 0 auto;
+}
+
+.container-admin {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 1060px;
+    padding: 0 35px;
+}
+
+.logo {
+    display: flex;
+}
+
+.title {
+    font-size: 20px;
+    line-height: 20px;
+    margin-left: 7px;
+    display: flex;
+    flex-direction: column;
+    align-self: end;
+}
+
+.title-medium {
+    font-weight: 600;
+}
+
 ul {
     list-style: none;
 }
@@ -69,6 +113,7 @@ input[type=text]:invalid {
     outline: 1px solid #f8405d;
 }
 
+button,
 input[type=button],
 input[type=submit] {
     cursor: pointer;
@@ -81,14 +126,23 @@ input[type=submit] {
     padding: 12px 0;
 }
 
+button:hover,
 input[type=button]:hover,
 input[type=submit]:hover {
     filter: brightness(95%);
 }
 
+button:active,
 input[type=button]:active,
 input[type=submit]:active {
     filter: brightness(90%);
+}
+
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled {
+    cursor: not-allowed;
+    filter: brightness(70%);
 }
 
 input:-webkit-autofill,

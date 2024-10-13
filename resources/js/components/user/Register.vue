@@ -27,9 +27,6 @@
 </template>
 
 <script>
-import {loginUser} from "@/api/users.js"
-import {get} from "@/api/categories.js"
-
 export default {
     name: "Login",
 

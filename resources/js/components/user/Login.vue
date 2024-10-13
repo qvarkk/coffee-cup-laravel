@@ -19,8 +19,7 @@
 </template>
 
 <script>
-import {getCurrentUser, loginUser} from "@/api/users.js"
-import {get} from "@/api/categories.js"
+import {loginUser} from "@/api/users.js"
 import {useUserStore} from "@/store/userStore.js";
 
 export default {

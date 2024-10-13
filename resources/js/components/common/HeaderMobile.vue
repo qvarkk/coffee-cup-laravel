@@ -1,12 +1,15 @@
 <template>
     <header class="header">
-        <router-link :to="{ name: 'user.index' }" class="logo">
-            <img src="logo.svg" alt="Coffee Cup Logo">
-            <div class="title">
-                <span class="title-medium">CUP</span>
-                coffee
-            </div>
-        </router-link>
+        <div class="logo">
+            <router-link :to="{ name: 'user.index' }"  class="flex-start">
+                <img class="logo-img" src="/images/logos/logo.svg" alt="Coffee Cup Logo">
+                <div class="title">
+                    <span class="title-medium">CUP</span>
+                    admin
+                </div>
+            </router-link>
+            <i @click="this.$emit('update-show')" class="fa-solid fa-xmark fa-xl"></i>
+        </div>
 
         <router-link :to="{ name: 'user.index' }" class="user-email" v-if="user">{{ user.email }}</router-link>
 
@@ -74,6 +77,7 @@ export default {
 
 <style scoped>
 .header {
+    z-index: 1000;
     position: fixed;
     border-radius: 0 25px 25px 0;
     height: 100%;
@@ -87,25 +91,18 @@ export default {
     box-shadow: 0 3px 150px 15px #00000099;
 }
 
-.action-link:hover {
-    text-decoration: underline;
-}
-
 .logo {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.title {
-    font-size: 20px;
-    line-height: 20px;
-    margin-left: 7px;
+.flex-start {
     display: flex;
-    flex-direction: column;
-    align-self: end;
 }
 
-.title-medium {
-    font-weight: 600;
+.action-link:hover {
+    text-decoration: underline;
 }
 
 .user-email {

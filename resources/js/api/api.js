@@ -3,6 +3,8 @@ import router from "@/router.js";
 
 const api = axios.create()
 
+api.defaults.baseURL= 'http://localhost:8000'
+
 api.interceptors.request.use(config => {
 
     if (localStorage.getItem('access_token')) {
@@ -21,6 +23,7 @@ api.interceptors.response.use(config => {
     }
     return config
 }, error => {
+    console.log(error);
     if (error.response.data.message === 'Token has expired') {
         return axios.post('api/auth/refresh', {}, {
             headers: {
