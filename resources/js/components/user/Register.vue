@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <h3 class="title">Регистрация</h3>
+        <h3 class="page-title">Регистрация</h3>
         <div class="form-group">
             <label for="email">Почта</label>
             <input v-model="email" id="email" type="email" class="form-input" placeholder="user@example.com"/>
@@ -64,7 +64,7 @@ export default {
     text-align: center;
 }
 
-.title {
+.page-title {
     margin-bottom: 50px;
 }
 

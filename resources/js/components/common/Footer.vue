@@ -86,4 +86,31 @@ export default {
     font-weight: 400;
 }
 
+@media (max-width: 768px) {
+    .footer {
+        padding-bottom: 25px;
+    }
+
+    .container {
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 2fr 1.5fr;
+        row-gap: 35px;
+        column-gap: 20px;
+    }
+
+    .logo {
+        justify-self: end;
+    }
+
+    .nav {
+        justify-self: start;
+    }
+
+    .links {
+        justify-self: center;
+        align-items: center;
+        grid-column: 1 / span 2;
+    }
+}
+
 </style>

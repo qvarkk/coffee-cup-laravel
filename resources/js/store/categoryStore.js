@@ -5,33 +5,25 @@ import {createCategory} from "@/api/categories";
 export const useCategoryStore = defineStore('categories', {
     state: () => ({
         categories: null,
-        editId: null,
     }),
 
     actions: {
         async getCategories() {
             let res = await getCategories()
-            this.categories = res.data
-        },
-
-        setEditId(id) {
-            this.editId = id
+            this.categories = res.data.data
+            return res
         },
 
         async createCategory(name) {
-            await createCategory(name)
-            await this.getCategories()
+            return await createCategory(name)
         },
 
         async updateCategory(id, name) {
-            await updateCategory(id, name)
-            this.setEditId(null)
-            await this.getCategories()
+            return await updateCategory(id, name)
         },
 
         async deleteCategory(id) {
-            await deleteCategory(id)
-            await this.getCategories()
+            return await deleteCategory(id)
         }
     }
 })

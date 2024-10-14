@@ -1,65 +1,83 @@
 <template>
     <div class="container-admin">
-        <h3>Categories</h3>
+        <h3>Категории</h3>
         <table class="table">
             <thead>
             <tr>
-                <th class="bg-transparent" scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Actions</th>
+                <th class="bg-transparent" scope="col">ID</th>
+                <th scope="col">Название</th>
+                <th scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
-                <template v-for="category in categoryStore.categories">
-                    <CategoriesShow v-if="this.categoryStore.editId !== category.id" :id="category.id"
-                                    :name="category.name"></CategoriesShow>
-                    <CategoriesEdit v-if="this.categoryStore.editId === category.id" :id="category.id"
-                                    :name="category.name"></CategoriesEdit>
-                </template>
-                <th scope="row">#</th>
-                <td><input type="text" v-model="this.name"></td>
-                <td>
-                    <button @click="this.categoryStore.createCategory(this.name); this.name = ''" class="btn-action" :disabled="name === ''">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </td>
+            <template v-for="category in categoryStore.categories">
+                <CategoriesShow v-if="categoryStore.editId !== category.id" :id="category.id"
+                                :name="category.name"></CategoriesShow>
+                <CategoriesShowModal v-if="stateStore.activeModalId === category.id" :id="category.id" :name="category.name"></CategoriesShowModal>
+            </template>
             </tbody>
         </table>
+        <div>
+            <button @click="stateStore.startCreating()" class="add-btn btn-action primary">
+                <i class="fa-solid fa-plus"></i> Добавить
+            </button>
+        </div>
     </div>
+    <CategoriesCreate></CategoriesCreate>
 </template>
 
 <script>
 import {useCategoryStore} from "@/store/categoryStore.js";
 import CategoriesShow from "@/components/admin/Categories/Show.vue"
 import CategoriesEdit from "@/components/admin/Categories/Edit.vue"
+import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
+import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
+import CategoriesCreate from "@/components/admin/Categories/Create.vue";
+import CategoriesShowModal from "@/components/admin/Categories/ShowModal.vue";
+import ErrorModal from "@/components/common/ErrorModal.vue";
+import {useStateStore} from "@/store/stateStore.js";
 
 export default {
     name: "CategoriesIndex",
 
     setup() {
         const categoryStore = useCategoryStore()
-        return {categoryStore}
+        const stateStore = useStateStore()
+        return {categoryStore, stateStore}
     },
 
     data() {
         return {
-            name: ''
+            name: '',
         }
     },
 
     components: {
+        ErrorModal,
+        CategoriesShowModal,
+        CategoriesCreate,
         CategoriesShow,
-        CategoriesEdit
+        CategoriesEdit,
+        LoadingSpinner,
+        InlineLoadingSpinner
     },
 
     async mounted() {
+        this.stateStore.startLoading()
         await this.categoryStore.getCategories()
-        console.log(this.categoryStore.categories);
+        this.stateStore.endLoading()
     },
 }
 </script>
 
 <style>
+input {
+    width: 100%;
+    border-radius: 0 !important;
+    background-color: #fff !important;
+    height: 100%;
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -73,15 +91,15 @@ export default {
 }
 
 .table thead {
-    background-color: #f8f9fa; /* Light background for the header */
+    background-color: #f8f9fa;
 }
 
 .table tbody tr:hover {
-    background-color: #f1f1f1; /* Change background on hover */
+    background-color: #f1f1f1;
 }
 
 .table .bg-transparent {
-    background-color: transparent; /* Keep header background transparent */
+    background-color: transparent;
 }
 
 .btn-action {
@@ -93,11 +111,17 @@ export default {
     cursor: pointer;
 }
 
-.btn-action:last-child {
-    background-color: #dc3545; /* Bootstrap danger color */
+.danger {
+    background-color: #dc3545;
 }
 
-.btn-action:first-child {
-background-color: #007bff; /* Bootstrap primary color */
+.primary {
+    background-color: #007bff;
 }
+
+.add-btn {
+    text-transform: none;
+    margin: 0 15px;
+}
+
 </style>

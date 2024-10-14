@@ -1,4 +1,6 @@
 <template>
+    <LoadingSpinner :isLoading="stateStore.isLoading"></LoadingSpinner>
+    <ErrorModal v-if="stateStore.showError" :messages="stateStore.messages"></ErrorModal>
     <Sidebar @update-show="updateShowState" :class="{'out-of-screen':!showNav}"></Sidebar>
     <main class="main" :class="{ 'open': showNav }">
         <div class="menu-button">
@@ -10,11 +12,21 @@
 
 <script>
 import Sidebar from "@/components/common/Sidebar.vue";
+import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
+import ErrorModal from "@/components/common/ErrorModal.vue";
+import {useStateStore} from "@/store/stateStore.js";
 
 export default {
     name: "AdminLayout",
 
+    setup() {
+        const stateStore = useStateStore()
+        return {stateStore}
+    },
+
     components: {
+        ErrorModal,
+        LoadingSpinner,
         Sidebar,
     },
 

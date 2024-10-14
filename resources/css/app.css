@@ -64,6 +64,7 @@ a {
     width: 100%;
     max-width: 1060px;
     padding: 0 35px;
+    gap: 20px;
 }
 
 .logo {

@@ -38,7 +38,7 @@
             </ul>
         </nav>
 
-        <a href="" @click.prevent="logoutUser" class="action-link logout-link">Выход</a>
+        <a v-if="user" href="" @click.prevent="logoutUser" class="action-link logout-link">Выход</a>
 
     </header>
 </template>
