@@ -19,7 +19,7 @@
                 </router-link>
             </li>
             <li>
-                <router-link class="nav-item" :to="{}">
+                <router-link class="nav-item" :to="{ name: 'admin.products' }">
                     <i class="fa-solid fa-cart-shopping"></i>
                     Товары
                 </router-link>

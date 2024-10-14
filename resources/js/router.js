@@ -7,6 +7,7 @@ import UserLayout from "@/components/layouts/UserLayout.vue";
 import Homepage from "@/components/user/Homepage.vue";
 import {getCurrentUser} from "@/api/users.js";
 import CategoriesIndex from "@/components/admin/Categories/Index.vue";
+import ProductsIndex from "@/components/admin/Products/Index.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,7 @@ const router = createRouter({
             children: [
                 { path: '', component: Dashboard, name: 'admin.index' },
                 { path: 'categories', component: CategoriesIndex, name: 'admin.categories' },
+                { path: 'products', component: ProductsIndex, name: 'admin.products' },
             ],
             meta: { requiresAuth: true, requiresAdmin: true },
         },
