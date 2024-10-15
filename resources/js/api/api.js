@@ -3,7 +3,9 @@ import router from "@/router.js";
 
 const api = axios.create()
 
-api.defaults.baseURL= 'http://localhost:8000'
+let baseURL = 'http://localhost:8000'
+
+api.defaults.baseURL = baseURL
 
 api.interceptors.request.use(config => {
 
@@ -16,19 +18,15 @@ api.interceptors.request.use(config => {
     return error
 });
 
-api.interceptors.response.use(config => {
+api.interceptors.response.use({}, error => {
 
-    if (localStorage.getItem('access_token')) {
-        config.headers['authorization'] = `Bearer ${localStorage.getItem('access_token')}`
-    }
-    return config
-}, error => {
-    if (error.response.data.message === 'Token has expired') {
-        return axios.post('api/auth/refresh', {}, {
+    if (error.response.data.message === 'Token has expired' ||
+        error.request.responseURL === 'http://localhost:8000/api/auth/me' && localStorage.getItem('access_token')) {
+        return axios.post(`${baseURL}/api/auth/refresh`, {}, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('access_token')}`
             }
-        }).then( res => {
+        }).then(res => {
             localStorage.setItem('access_token', res.data.access_token)
 
             error.config.headers['authorization'] = `Bearer ${res.data.access_token}`

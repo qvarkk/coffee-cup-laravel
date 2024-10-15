@@ -7,15 +7,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(App\Http\Controllers\AuthController::class)->prefix('auth')->middleware(['api'])->group(function() {
+Route::controller(App\Http\Controllers\AuthController::class)->prefix('auth')->middleware(['api'])->group(function () {
     Route::post('/login', 'login');
     Route::post('/logout', 'logout');
     Route::post('/refresh', 'refresh');
-    Route::post('/me', 'me'); // TODO: fix that expired token returns message 'Unauthorized.' instead of 'Token is expired'
+    Route::post('/me', 'me');
 });
 
-// TODO: add admin middleware
-Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jwt.auth'])->group(function () {
+Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jwt.auth', 'admin'])->group(function () {
     Route::namespace('Category')->prefix('categories')->group(function () {
         Route::get('/', IndexController::class)->name('admin.category.index');
         Route::get('/{category}', ShowController::class)->name('admin.category.show');
@@ -47,4 +46,8 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jw
         Route::patch('/{review}', UpdateController::class)->name('admin.review.update');
         Route::delete('/{review}', DestroyController::class)->name('admin.review.destroy');
     });
+});
+
+Route::namespace('App\Http\Controllers\User')->prefix('user')->group(function () {
+   Route::post('/', StoreController::class)->name('user.store');
 });
