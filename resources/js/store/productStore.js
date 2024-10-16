@@ -13,12 +13,12 @@ export const useProductStore = defineStore('products', {
             return res
         },
 
-        async createProduct(name, description, image, category_id, serving, in_stock, price) {
-            return await createProduct(name, description, image, category_id, serving, in_stock, price)
+        async createProduct(product) {
+            return await createProduct(product)
         },
 
-        async updateProduct(id, name, description, image, category_id, serving, in_stock, price) {
-            return await updateProduct(id, name, description, image, category_id, serving, in_stock, price)
+        async updateProduct(product) {
+            return await updateProduct(product)
         },
 
         async deleteProduct(id) {

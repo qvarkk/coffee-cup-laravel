@@ -39,7 +39,7 @@ import {useProductStore} from "@/store/productStore.js";
 import {useCategoryStore} from "@/store/categoryStore.js";
 
 export default {
-    name: "ProductsIndex",
+    name: "UsersIndex",
 
     setup() {
         const productStore = useProductStore()

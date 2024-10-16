@@ -48,5 +48,18 @@ export default {
 </script>
 
 <style scoped>
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
 
+thead {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
 </style>

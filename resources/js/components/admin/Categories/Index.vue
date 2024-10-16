@@ -71,57 +71,31 @@ export default {
 </script>
 
 <style scoped>
-/deep/ input {
+:deep(input) {
     width: 100%;
     border-radius: 0 !important;
     background-color: #fff !important;
     height: 100%;
+    padding: 0;
 }
 
-/deep/ .table {
+.table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/deep/ .table th,
-/deep/ .table td {
+.table th {
     padding: 15px;
     text-align: left;
     border: 1px solid #dee2e6;
 }
 
-/deep/ .table thead {
+.table thead {
     background-color: #f8f9fa;
-}
-
-/deep/ .table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-/deep/ .table .bg-transparent {
-    background-color: transparent;
-}
-
-/deep/ .btn-action {
-    padding: 6px 12px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    cursor: pointer;
-}
-
-/deep/ .danger {
-    background-color: #dc3545;
-}
-
-/deep/ .primary {
-    background-color: #007bff;
 }
 
 .add-btn {
     text-transform: none;
     margin: 0 15px;
 }
-
 </style>

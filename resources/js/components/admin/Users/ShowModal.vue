@@ -68,7 +68,7 @@ import {useProductStore} from "@/store/productStore.js";
 import ProductsEdit from "@/components/admin/Products/Edit.vue";
 
 export default {
-    name: "ProductsShowModal",
+    name: "UsersShowModal",
     components: {ProductsEdit},
 
     setup() {

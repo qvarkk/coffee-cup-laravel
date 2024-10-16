@@ -76,7 +76,7 @@ import {useStateStore} from "@/store/stateStore.js";
 import {useProductStore} from "@/store/productStore.js";
 
 export default {
-    name: "ProductsEdit",
+    name: "UsersEdit",
 
     data() {
         return {

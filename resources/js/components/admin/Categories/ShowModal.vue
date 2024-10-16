@@ -69,31 +69,7 @@ export default {
 }
 </script>
 
-<style>
-.dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 500;
-}
-
-.dialog {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 501;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
+<style scoped>
 .dialog h3 {
     margin-top: 0;
     font-size: 1.5rem;
@@ -122,20 +98,23 @@ export default {
     width: 100%;
 }
 
-.table-input {
-    padding: 0 !important;
-    height: 100%;
-    background-color: #fff !important;
+.table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+thead {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
 }
 </style>

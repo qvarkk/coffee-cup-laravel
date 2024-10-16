@@ -4,28 +4,28 @@ export async function getProducts() {
     return await API.get('/api/admin/products')
 }
 
-export async function createProduct(name, description, image, category_id, serving, in_stock, price) {
+export async function createProduct(product) {
     return await API.post('/api/admin/products', {
-            name: name,
-            description: description,
-            image: image,
-            category_id: category_id,
-            serving: serving,
-            in_stock: in_stock,
-            price: price
+            name: product.name,
+            description: product.description,
+            image: product.image,
+            category_id: product.category_id,
+            serving: product.serving,
+            in_stock: product.in_stock,
+            price: product.price
         }
     )
 }
 
-export async function updateProduct(id, name, description, image, category_id, serving, in_stock, price) {
-    return await API.patch(`/api/admin/products/${id}`, {
-        name: name,
-        description: description,
-        image: image,
-        category_id: category_id,
-        serving: serving,
-        in_stock: in_stock,
-        price: price
+export async function updateProduct(product) {
+    return await API.patch(`/api/admin/products/${product.id}`, {
+        name: product.name,
+        description: product.description,
+        image: product.image,
+        category_id: product.category_id,
+        serving: product.serving,
+        in_stock: product.in_stock,
+        price: product.price
     })
 }
 

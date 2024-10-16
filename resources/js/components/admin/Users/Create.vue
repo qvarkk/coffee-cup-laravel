@@ -68,7 +68,7 @@ import {useStateStore} from "@/store/stateStore.js";
 import {useProductStore} from "@/store/productStore.js";
 
 export default {
-    name: "ProductsCreate",
+    name: "UsersCreate",
 
     setup() {
         const productStore = useProductStore()

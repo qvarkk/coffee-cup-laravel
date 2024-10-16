@@ -21,7 +21,7 @@ import {useStateStore} from "@/store/stateStore.js";
 import {useProductStore} from "@/store/productStore.js";
 
 export default {
-    name: "ProductsShow",
+    name: "UsersShow",
 
     setup() {
         const productStore = useProductStore()

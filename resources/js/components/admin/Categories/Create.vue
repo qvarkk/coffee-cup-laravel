@@ -75,5 +75,51 @@ export default {
 </script>
 
 <style scoped>
+.dialog h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
 
+.dialog td {
+    width: 100%;
+}
+
+.dialog-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dialog-bottom {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.dialog table {
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+thead {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
 </style>
