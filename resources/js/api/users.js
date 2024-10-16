@@ -23,7 +23,11 @@ export async function getCurrentUser() {
     return await API.post('api/auth/me')
 }
 
-export async function getUser() {
+export async function getRoles() {
+    return await API.get('/api/admin/users/roles')
+}
+
+export async function getUsers() {
     return await API.get('api/admin/users')
 }
 

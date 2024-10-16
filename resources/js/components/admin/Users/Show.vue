@@ -1,15 +1,14 @@
 <template>
     <tr>
-        <th scope="row">{{ product.id }}</th>
-        <td @click="stateStore.setActiveModalId(product.id)">{{ product.name }}</td>
-        <td @click="stateStore.setActiveModalId(product.id)">{{ product.category.name }}</td>
-        <td @click="stateStore.setActiveModalId(product.id)">{{ product.price }}</td>
-        <td @click="stateStore.setActiveModalId(product.id)">{{ product.in_stock }}</td>
+        <th scope="row">{{ user.id }}</th>
+        <td @click="stateStore.setActiveModalId(user.id)">{{ user.email }}</td>
+        <td @click="stateStore.setActiveModalId(user.id)">{{ user.name }}</td>
+        <td @click="stateStore.setActiveModalId(user.id)">{{ user.role }}</td>
         <td>
             <button @click="openEdit" class="btn-action primary">
                 <i class="fa-solid fa-pencil"></i>
             </button>
-            <button @click="deleteCategory" class="btn-action danger">
+            <button @click="deleteUser" class="btn-action danger">
                 <i class="fa-solid fa-trash"></i>
             </button>
         </td>
@@ -18,33 +17,33 @@
 
 <script>
 import {useStateStore} from "@/store/stateStore.js";
-import {useProductStore} from "@/store/productStore.js";
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
     name: "UsersShow",
 
     setup() {
-        const productStore = useProductStore()
+        const userStore = useUserStore()
         const stateStore = useStateStore()
-        return {productStore, stateStore}
+        return {userStore, stateStore}
     },
 
     methods: {
         openEdit() {
-            this.stateStore.setActiveModalId(this.product.id)
+            this.stateStore.setActiveModalId(this.user.id)
             this.stateStore.startEditing()
         },
 
-        async deleteCategory() {
+        async deleteUser() {
             this.stateStore.startLoading()
-            await this.productStore.deleteProduct(this.product.id)
-            await this.productStore.getProducts()
+            await this.userStore.deleteUser(this.user.id)
+            await this.userStore.getUsers()
             this.stateStore.endLoading()
         }
     },
 
     props: [
-        'product'
+        'user'
     ],
 }
 </script>

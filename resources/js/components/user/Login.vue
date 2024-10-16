@@ -24,7 +24,7 @@
 
 <script>
 import {loginUser} from "@/api/users.js"
-import {useUserStore} from "@/store/userStore.js";
+import {useUserStore} from "@/store/authStore.js";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
 

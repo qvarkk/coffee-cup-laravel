@@ -41,7 +41,7 @@
 
 <script>
 import {logoutUser} from "@/api/users.js";
-import {useUserStore} from "@/store/userStore.js";
+import {useUserStore} from "@/store/authStore.js";
 
 export default {
     name: "Header",

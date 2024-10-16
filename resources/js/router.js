@@ -1,13 +1,13 @@
 import {createRouter, createWebHistory} from "vue-router"
 import Login from "@/components/user/Login.vue";
 import Register from "@/components/user/Register.vue";
-import Dashboard from "@/components/admin/Dashboard.vue";
 import AdminLayout from "@/components/layouts/AdminLayout.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
 import Homepage from "@/components/user/Homepage.vue";
 import {getCurrentUser} from "@/api/users.js";
 import CategoriesIndex from "@/components/admin/Categories/Index.vue";
 import ProductsIndex from "@/components/admin/Products/Index.vue";
+import UsersIndex from "@/components/admin/Users/Index.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,9 +16,10 @@ const router = createRouter({
             path: '/admin',
             component: AdminLayout,
             children: [
-                { path: '', component: Dashboard, name: 'admin.index' },
+                { path: '', redirect: { name: 'admin.users' }, name: 'admin.index' },
                 { path: 'categories', component: CategoriesIndex, name: 'admin.categories' },
                 { path: 'products', component: ProductsIndex, name: 'admin.products' },
+                { path: 'users', component: UsersIndex, name: 'admin.users' },
             ],
             meta: { requiresAuth: true, requiresAdmin: true },
         },
@@ -34,7 +35,7 @@ const router = createRouter({
         // TODO: make 404 component and load it
         {
             path: '/:pathMatch(.*)',
-            component: Dashboard,
+            component: UsersIndex,
             name: '404'
         }
     ]

@@ -20,8 +20,8 @@ class User extends Authenticatable implements JWTSubject
     public static function getRoles() : array
     {
         return [
-            self::ROLE_USER => 'user',
-            self::ROLE_ADMIN => 'admin'
+            self::ROLE_USER => 'Пользователь',
+            self::ROLE_ADMIN => 'Админ'
         ];
     }
 

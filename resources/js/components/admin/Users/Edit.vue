@@ -16,53 +16,30 @@
             <td>{{ id }}</td>
         </tr>
         <tr>
-            <th>Название</th>
+            <th>Почта</th>
+            <td><input type="email" v-model="email"></td>
+        </tr>
+        <tr>
+            <th>Имя</th>
             <td><input type="text" v-model="name"></td>
         </tr>
         <tr>
-            <th>Описание</th>
-            <td><input type="text" v-model="description"></td>
-        </tr>
-        <tr>
-            <th>Изображение (ссылка)</th>
-            <td><input type="text" v-model="image"></td>
-        </tr>
-        <tr>
-            <th>Категория</th>
+            <th>Роль</th>
             <td>
-                <select v-model="category_id">
-                    <option disabled>Выберите категорию</option>
-                    <template v-for="category in categories">
-                        <option :selected="category.id === this.category_id" :value="category.id">{{
-                                category.name
-                            }}
-                        </option>
+                <select v-model="role">
+                    <option disabled>Выберите роль</option>
+                    <template v-for="role in roles">
+                        <option :selected="role.name === user.role" :value="role.id">{{ role.name }}</option>
                     </template>
                 </select>
             </td>
         </tr>
-        <tr>
-            <th>Объем</th>
-            <td><input type="number" v-model="serving"></td>
-        </tr>
-        <tr>
-            <th>В наличии</th>
-            <td><input type="number" v-model="in_stock"></td>
-        </tr>
-        <tr>
-            <th>Цена</th>
-            <td><input type="number" v-model="price"></td>
-        </tr>
         </tbody>
     </table>
     <div class="dialog-bottom">
-        <button @click="updateCategory" class="btn-action primary" :disabled="this.name === this.product.name &&
-           this.description === this.product.description &&
-           this.image === this.product.image &&
-           this.category_id === this.product.category.id &&
-           this.serving === this.product.serving &&
-           this.in_stock === this.product.in_stock &&
-           this.price === this.product.price">
+        <button @click="updateUser" class="btn-action primary" :disabled="this.name === this.user.name &&
+           this.email === this.user.email &&
+           this.role.value === this.user.role">
             <i class="fa-solid fa-check fa-xl"></i>
         </button>
         <button @click="this.stateStore.endEditing()" class="btn-action danger">
@@ -73,49 +50,41 @@
 
 <script>
 import {useStateStore} from "@/store/stateStore.js";
-import {useProductStore} from "@/store/productStore.js";
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
     name: "UsersEdit",
 
     data() {
         return {
-            id: this.product.id,
-            name: this.product.name,
-            description: this.product.description,
-            image: this.product.image,
-            category_id: this.product.category.id,
-            serving: this.product.serving,
-            in_stock: this.product.in_stock,
-            price: this.product.price
+            id: this.user.id,
+            email: this.user.email,
+            name: this.user.name,
+            role: this.user.role
         }
     },
 
     setup() {
-        const productStore = useProductStore()
+        const userStore = useUserStore()
         const stateStore = useStateStore()
-        return {productStore, stateStore}
+        return {userStore, stateStore}
     },
 
     methods: {
-        async updateCategory() {
+        async updateUser() {
             this.stateStore.startLoading()
 
-            let product = {
+            let user = {
                 id: this.id,
+                email: this.email,
                 name: this.name,
-                description: this.description,
-                image: this.image,
-                category_id: this.category_id,
-                serving: this.serving,
-                in_stock: this.in_stock,
-                price: this.price
+                role: this.role
             }
 
-            let res = await this.productStore.updateProduct(product)
+            let res = await this.userStore.updateUser(user)
 
             if (Math.floor(res.status / 100) === 2) {
-                await this.productStore.getProducts()
+                await this.userStore.getUsers()
                 this.stateStore.closeActiveModal()
             } else {
                 this.stateStore.showErrorModal(res.response.data.errors)
@@ -126,8 +95,8 @@ export default {
     },
 
     props: [
-        'product',
-        'categories'
+        'user',
+        'roles'
     ],
 }
 </script>

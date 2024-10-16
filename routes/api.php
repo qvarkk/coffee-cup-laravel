@@ -32,6 +32,7 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jw
     });
 
     Route::namespace('user')->prefix('users')->group(function () {
+        Route::get('/roles', RolesController::class)->name('admin.user.roles');
         Route::get('/', IndexController::class)->name('admin.user.index');
         Route::get('/{user}', ShowController::class)->name('admin.user.show');
         Route::post('/', StoreController::class)->name('admin.user.store');

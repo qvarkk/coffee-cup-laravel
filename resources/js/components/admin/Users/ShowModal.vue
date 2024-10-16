@@ -1,7 +1,7 @@
 <template>
     <div class="dialog-overlay">
         <div class="dialog">
-            <ProductsEdit v-if="stateStore.isEditing" :product="product" :categories="categories"></ProductsEdit>
+            <UsersEdit v-if="stateStore.isEditing" :user="user" :roles="roles"></UsersEdit>
             <template v-if="!stateStore.isEditing">
                 <div class="dialog-top">
                     <h3>Подробности</h3>
@@ -17,35 +17,27 @@
                     <tbody>
                     <tr>
                         <th>ID</th>
-                        <td>{{ product.id }}</td>
+                        <td>{{ user.id }}</td>
                     </tr>
                     <tr>
-                        <th>Название</th>
-                        <td @click="stateStore.startEditing">{{ product.name }}</td>
+                        <th>Почта</th>
+                        <td @click="stateStore.startEditing">{{ user.email }}</td>
                     </tr>
                     <tr>
-                        <th>Описание</th>
-                        <td @click="stateStore.startEditing">{{ product.description }}</td>
+                        <th>Имя</th>
+                        <td @click="stateStore.startEditing">{{ user.name }}</td>
                     </tr>
                     <tr>
-                        <th>Изображение (ссылка)</th>
-                        <td @click="stateStore.startEditing">{{ product.image }}</td>
+                        <th>Роль</th>
+                        <td @click="stateStore.startEditing">{{ user.role }}</td>
                     </tr>
                     <tr>
-                        <th>Категория</th>
-                        <td @click="stateStore.startEditing">{{ product.category.name }}</td>
+                        <th>Почта подтверждена</th>
+                        <td @click="stateStore.startEditing">{{ user.email_verified_at ? 'Да' : 'Нет' }}</td>
                     </tr>
                     <tr>
-                        <th>Объем</th>
-                        <td @click="stateStore.startEditing">{{ product.serving }}</td>
-                    </tr>
-                    <tr>
-                        <th>В наличии</th>
-                        <td @click="stateStore.startEditing">{{ product.in_stock }}</td>
-                    </tr>
-                    <tr>
-                        <th>Цена</th>
-                        <td @click="stateStore.startEditing">{{ product.price }}</td>
+                        <th>Создан</th>
+                        <td @click="stateStore.startEditing">{{ formatTimestamp() }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -53,7 +45,7 @@
                     <button @click="stateStore.startEditing" class="btn-action primary">
                         <i class="fa-solid fa-pencil"></i>
                     </button>
-                    <button @click="deleteProduct" class="btn-action danger">
+                    <button @click="deleteUser" class="btn-action danger">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -64,32 +56,43 @@
 
 <script>
 import {useStateStore} from "@/store/stateStore.js";
-import {useProductStore} from "@/store/productStore.js";
-import ProductsEdit from "@/components/admin/Products/Edit.vue";
+import {useUserStore} from "@/store/userStore.js";
+import UsersEdit from "@/components/admin/Users/Edit.vue";
 
 export default {
     name: "UsersShowModal",
-    components: {ProductsEdit},
+    components: {UsersEdit},
 
     setup() {
-        const productStore = useProductStore()
+        const userStore = useUserStore()
         const stateStore = useStateStore()
-        return {productStore, stateStore}
+        return {userStore, stateStore}
     },
 
     methods: {
-        async deleteProduct() {
+        async deleteUser() {
             this.stateStore.closeActiveModal()
             this.stateStore.startLoading()
-            await this.productStore.deleteProduct(this.id)
-            await this.productStore.getProducts()
+            await this.userStore.deleteUser(this.id)
+            await this.userStore.getUsers()
             this.stateStore.endLoading()
+        },
+
+        formatTimestamp() {
+            const date = new Date(this.user.created_at);
+
+            return date.getFullYear() + '-' +
+                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                String(date.getDate()).padStart(2, '0') + ' ' +
+                String(date.getHours()).padStart(2, '0') + ':' +
+                String(date.getMinutes()).padStart(2, '0') + ':' +
+                String(date.getSeconds()).padStart(2, '0');
         }
     },
 
     props: [
-        'product',
-        'categories'
+        'user',
+        'roles'
     ],
 }
 </script>

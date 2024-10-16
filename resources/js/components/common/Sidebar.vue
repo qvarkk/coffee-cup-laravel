@@ -13,7 +13,7 @@
 
         <ul class="nav-list">
             <li>
-                <router-link class="nav-item" :to="{}">
+                <router-link class="nav-item" :to="{ name: 'admin.users' }">
                     <i class="fa-solid fa-user"></i>
                     Пользователи
                 </router-link>

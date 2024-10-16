@@ -14,45 +14,29 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Название</th>
+                    <th>Почта</th>
+                    <td class="table-input"><input type="email" v-model="email"></td>
+                </tr>
+                <tr>
+                    <th>Имя</th>
                     <td class="table-input"><input type="text" v-model="name"></td>
                 </tr>
                 <tr>
-                    <th>Описание</th>
-                    <td class="table-input"><input type="text" v-model="description"></td>
-                </tr>
-                <tr>
-                    <th>Изображение (ссылка)</th>
-                    <td class="table-input"><input type="text" v-model="image"></td>
-                </tr>
-                <tr>
-                    <th>Категория</th>
+                    <th>Роль</th>
                     <td class="table-input">
-                        <select v-model="category_id">
-                            <option selected disabled>Выберите категорию</option>
-                            <template v-for="category in categories">
-                                <option :value="category.id">{{ category.name }}</option>
+                        <select v-model="role">
+                            <option selected disabled>Выберите роль</option>
+                            <template v-for="role in roles">
+                                <option :value="role.id">{{ role.name }}</option>
                             </template>
                         </select>
                     </td>
-                </tr>
-                <tr>
-                    <th>Объем</th>
-                    <td class="table-input"><input type="number" v-model="serving"></td>
-                </tr>
-                <tr>
-                    <th>В наличии</th>
-                    <td class="table-input"><input type="number" v-model="in_stock"></td>
-                </tr>
-                <tr>
-                    <th>Цена</th>
-                    <td class="table-input"><input type="number" v-model="price"></td>
                 </tr>
                 </tbody>
             </table>
             <div class="dialog-bottom">
                 <button @click="createCategory" class="btn-action primary"
-                        :disabled="name === '' || description === '' || image === '' || !category_id || !serving || !in_stock || !price">
+                        :disabled="email === '' || name === '' || !role">
                     <i class="fa-solid fa-plus"></i>
                 </button>
                 <button @click="cancelCreating()" class="btn-action danger">
@@ -65,26 +49,22 @@
 
 <script>
 import {useStateStore} from "@/store/stateStore.js";
-import {useProductStore} from "@/store/productStore.js";
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
     name: "UsersCreate",
 
     setup() {
-        const productStore = useProductStore()
+        const userStore = useUserStore()
         const stateStore = useStateStore()
-        return {productStore, stateStore}
+        return {userStore, stateStore}
     },
 
     data() {
         return {
+            email: '',
             name: '',
-            description: '',
-            image: '',
-            category_id: null,
-            serving: null,
-            in_stock: null,
-            price: null
+            role: null,
         }
     },
 
@@ -92,22 +72,20 @@ export default {
         async createCategory() {
             this.stateStore.startLoading()
 
-            let product = {
+            let user = {
+                email: this.email,
                 name: this.name,
-                description: this.description,
-                image: this.image,
-                category_id: this.category_id,
-                serving: this.serving,
-                in_stock: this.in_stock,
-                price: this.price
+                role: this.role,
             }
 
-            let res = await this.productStore.createProduct(product)
+            let res = await this.userStore.createUser(user)
 
             if (Math.floor(res.status / 100) === 2) {
-                await this.productStore.getProducts()
+                await this.userStore.getUsers()
                 this.stateStore.endCreating()
+                this.email = ''
                 this.name = ''
+                this.role = null
             } else {
                 this.stateStore.showErrorModal(res.response.data.errors)
             }
@@ -116,19 +94,15 @@ export default {
         },
 
         cancelCreating() {
+            this.email = ''
             this.name = ''
-            this.description = ''
-            this.image = ''
-            this.category_id = null
-            this.serving = null
-            this.in_stock = null
-            this.price = null
+            this.role = null
             this.stateStore.endCreating()
         }
     },
 
     props: [
-        'categories'
+        'roles'
     ]
 }
 </script>

@@ -1,24 +1,32 @@
 import {defineStore} from "pinia";
-import {getCurrentUser} from "@/api/users.js";
+import {createUser, deleteUser, getRoles, getUsers, updateUser} from "@/api/users.js";
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('users', {
     state: () => ({
-        user: null,
+        users: null,
     }),
 
     actions: {
-        async fetchUser() {
-            const token = localStorage.getItem('access_token')
-            if (token) {
-                const res = await getCurrentUser()
-                this.user = res.data
-            } else {
-                this.user = null
-            }
+        async getRoles() {
+            return await getRoles()
         },
-        logout() {
-            localStorage.removeItem('access_token')
-            this.user = null
+
+        async getUsers() {
+            let res = await getUsers()
+            this.users = res.data.data
+            return res
+        },
+
+        async createUser(user) {
+            return await createUser(user)
+        },
+
+        async updateUser(user) {
+            return await updateUser(user)
+        },
+
+        async deleteUser(id) {
+            return await deleteUser(id)
         }
     }
 })

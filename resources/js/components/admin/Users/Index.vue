@@ -1,21 +1,20 @@
 <template>
     <div class="container-admin">
-        <h3>Товары</h3>
+        <h3>Пользователи</h3>
         <table class="table">
             <thead>
             <tr>
                 <th class="bg-transparent" scope="col">ID</th>
-                <th scope="col">Название</th>
-                <th scope="col">Категория</th>
-                <th scope="col">Цена</th>
-                <th scope="col">В наличии</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Роль</th>
                 <th scope="col">Действия</th>
             </tr>
             </thead>
             <tbody>
-            <template v-for="product in productStore.products">
-                <ProductsShow :id="product.id" :product="product"></ProductsShow>
-                <ProductsShowModal v-if="stateStore.activeModalId === product.id" :product="product" :categories="categories"></ProductsShowModal>
+            <template v-for="user in userStore.users">
+                <UsersShow :id="user.id" :user="user"></UsersShow>
+                <UsersShowModal v-if="stateStore.activeModalId === user.id" :user="user" :roles="roles"></UsersShowModal>
             </template>
             </tbody>
         </table>
@@ -25,48 +24,46 @@
             </button>
         </div>
     </div>
-    <ProductsCreate :categories="categories"></ProductsCreate>
+    <UsersCreate :roles="roles"></UsersCreate>
 </template>
 
 <script>
-import ProductsShow from "@/components/admin/Products/Show.vue"
+import UsersShow from "@/components/admin/Users/Show.vue"
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
-import ProductsCreate from "@/components/admin/Products/Create.vue";
-import ProductsShowModal from "@/components/admin/Products/ShowModal.vue";
+import UsersCreate from "@/components/admin/Users/Create.vue";
+import UsersShowModal from "@/components/admin/Users/ShowModal.vue";
 import ErrorModal from "@/components/common/ErrorModal.vue";
 import {useStateStore} from "@/store/stateStore.js";
-import {useProductStore} from "@/store/productStore.js";
-import {useCategoryStore} from "@/store/categoryStore.js";
+import {useUserStore} from "@/store/userStore.js";
 
 export default {
     name: "UsersIndex",
 
     setup() {
-        const productStore = useProductStore()
-        const categoryStore = useCategoryStore()
+        const userStore = useUserStore()
         const stateStore = useStateStore()
-        return {productStore, categoryStore, stateStore}
+        return {userStore, stateStore}
     },
 
     data() {
         return {
-            categories: null
+            roles: null
         }
     },
 
     components: {
-        ProductsShow,
-        ProductsShowModal,
-        ProductsCreate,
+        UsersShow,
+        UsersShowModal,
+        UsersCreate,
         ErrorModal,
         LoadingSpinner,
     },
 
     async mounted() {
         this.stateStore.startLoading()
-        await this.productStore.getProducts()
-        let res = await this.categoryStore.getCategories()
-        this.categories = res.data.data
+        let roles = await this.userStore.getRoles()
+        this.roles = roles.data.data
+        await this.userStore.getUsers()
         this.stateStore.endLoading()
     },
 }

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {useUserStore} from "@/store/userStore.js";
+import {useUserStore} from "@/store/authStore.js";
 import {logoutUser} from "@/api/users.js";
 
 export default {
