@@ -61,9 +61,27 @@ export default {
 
     async mounted() {
         this.stateStore.startLoading()
-        let roles = await this.userStore.getRoles()
-        this.roles = roles.data.data
-        await this.userStore.getUsers()
+        let res = await this.userStore.getRoles()
+        let res_get = await this.userStore.getUsers()
+
+        let showErrors = false
+        let errors = []
+
+        if (Math.floor(res.status / 100) !== 2) {
+            errors += res.response.data.errors
+            showErrors = true
+        } else {
+            this.roles = res.data.data
+        }
+
+        if (Math.floor(res_get.status / 100) !== 2) {
+            errors += res_get.response.data.errors
+            showErrors = true
+        }
+
+        if (showErrors)
+            this.stateStore.showErrorModal(errors)
+
         this.stateStore.endLoading()
     },
 }

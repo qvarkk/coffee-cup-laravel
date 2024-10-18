@@ -35,7 +35,7 @@ const router = createRouter({
         // TODO: make 404 component and load it
         {
             path: '/:pathMatch(.*)',
-            component: UsersIndex,
+            redirect: { name: 'user.index' },
             name: '404'
         }
     ]

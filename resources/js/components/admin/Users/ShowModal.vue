@@ -33,11 +33,11 @@
                     </tr>
                     <tr>
                         <th>Почта подтверждена</th>
-                        <td @click="stateStore.startEditing">{{ user.email_verified_at ? 'Да' : 'Нет' }}</td>
+                        <td>{{ user.email_verified_at ? 'Да' : 'Нет' }}</td>
                     </tr>
                     <tr>
                         <th>Создан</th>
-                        <td @click="stateStore.startEditing">{{ formatTimestamp() }}</td>
+                        <td>{{ formatTimestamp() }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -73,8 +73,13 @@ export default {
         async deleteUser() {
             this.stateStore.closeActiveModal()
             this.stateStore.startLoading()
-            await this.userStore.deleteUser(this.id)
+            let res = await this.userStore.deleteUser(this.id)
             await this.userStore.getUsers()
+
+            if (Math.floor(res.status / 100) !== 2) {
+                this.stateStore.showErrorModal(res.response.data.errors)
+            }
+
             this.stateStore.endLoading()
         },
 

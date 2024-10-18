@@ -64,7 +64,11 @@ export default {
 
     async mounted() {
         this.stateStore.startLoading()
-        await this.categoryStore.getCategories()
+        let res = await this.categoryStore.getCategories()
+
+        if (Math.floor(res.status / 100) !== 2)
+            this.stateStore.showErrorModal(res.response.data.errors)
+
         this.stateStore.endLoading()
     },
 }

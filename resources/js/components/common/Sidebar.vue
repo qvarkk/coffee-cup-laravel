@@ -31,12 +31,6 @@
                 </router-link>
             </li>
             <li>
-                <router-link class="nav-item" :to="{}">
-                    <i class="fa-solid fa-star"></i>
-                    Отзывы
-                </router-link>
-            </li>
-            <li>
                 <router-link class="nav-item" :to="{ name: 'user.index' }">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Главная страница

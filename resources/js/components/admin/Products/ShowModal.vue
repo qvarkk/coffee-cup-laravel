@@ -81,8 +81,13 @@ export default {
         async deleteProduct() {
             this.stateStore.closeActiveModal()
             this.stateStore.startLoading()
-            await this.productStore.deleteProduct(this.id)
+            let res = await this.productStore.deleteProduct(this.id)
             await this.productStore.getProducts()
+
+            if (Math.floor(res.status / 100) !== 2) {
+                this.stateStore.showErrorModal(res.response.data.errors)
+            }
+
             this.stateStore.endLoading()
         }
     },

@@ -15,7 +15,8 @@
             <tbody>
             <template v-for="product in productStore.products">
                 <ProductsShow :id="product.id" :product="product"></ProductsShow>
-                <ProductsShowModal v-if="stateStore.activeModalId === product.id" :product="product" :categories="categories"></ProductsShowModal>
+                <ProductsShowModal v-if="stateStore.activeModalId === product.id" :product="product"
+                                   :categories="categories"></ProductsShowModal>
             </template>
             </tbody>
         </table>
@@ -64,9 +65,27 @@ export default {
 
     async mounted() {
         this.stateStore.startLoading()
-        await this.productStore.getProducts()
-        let res = await this.categoryStore.getCategories()
-        this.categories = res.data.data
+        let res = await this.productStore.getProducts()
+        let res_cat = await this.categoryStore.getCategories()
+
+        let showErrors = false
+        let errors = []
+
+        if (Math.floor(res.status / 100) !== 2) {
+            errors += res.response.data.errors
+            showErrors = true
+        }
+
+        if (Math.floor(res_cat.status / 100) !== 2) {
+            errors += res_cat.response.data.errors
+            showErrors = true
+        } else {
+            this.categories = res.data.data
+        }
+
+        if (showErrors)
+            this.stateStore.showErrorModal(errors)
+
         this.stateStore.endLoading()
     },
 }

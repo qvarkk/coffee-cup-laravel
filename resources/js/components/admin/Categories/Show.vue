@@ -34,8 +34,13 @@ export default {
 
         async deleteCategory() {
             this.stateStore.startLoading()
-            await this.categoryStore.deleteCategory(this.id)
+            let res = await this.categoryStore.deleteCategory(this.id)
             await this.categoryStore.getCategories()
+
+            if (Math.floor(res.status / 100) !== 2) {
+                this.stateStore.showErrorModal(res.response.data.errors)
+            }
+
             this.stateStore.endLoading()
         }
     },
