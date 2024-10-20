@@ -103,5 +103,18 @@ export default {
     .fg-items {
         width: 75%;
     }
+
+    .banner-heading {
+        text-align: center;
+    }
+
+
+    .banner-promo {
+        text-align: center;
+    }
+
+    .banner-button-group {
+        justify-content: center;
+    }
 }
 </style>

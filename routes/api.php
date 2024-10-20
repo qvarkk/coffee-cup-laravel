@@ -40,15 +40,34 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jw
         Route::delete('/{user}', DestroyController::class)->name('admin.user.destroy');
     });
 
-    Route::namespace('Review')->prefix('reviews')->group(function () {
-        Route::get('/', IndexController::class)->name('admin.review.index');
-        Route::get('/{review}', ShowController::class)->name('admin.review.show');
-        Route::post('/', StoreController::class)->name('admin.review.store');
-        Route::patch('/{review}', UpdateController::class)->name('admin.review.update');
-        Route::delete('/{review}', DestroyController::class)->name('admin.review.destroy');
-    });
+//    Route::namespace('Review')->prefix('reviews')->group(function () {
+//        Route::get('/', IndexController::class)->name('admin.review.index');
+//        Route::get('/{review}', ShowController::class)->name('admin.review.show');
+//        Route::post('/', StoreController::class)->name('admin.review.store');
+//        Route::patch('/{review}', UpdateController::class)->name('admin.review.update');
+//        Route::delete('/{review}', DestroyController::class)->name('admin.review.destroy');
+//    });
 });
 
-Route::namespace('App\Http\Controllers\User')->prefix('user')->group(function () {
-   Route::post('/', StoreController::class)->name('user.store');
+Route::namespace('App\Http\Controllers\User')->prefix('users')->group(function () {
+    Route::post('/', StoreController::class)->name('user.store');
 });
+
+Route::namespace('App\Http\Controllers\Product')->prefix('products')->group(function () {
+    Route::get('/latest', LatestController::class)->name('product.latest');
+    Route::get('/popular', PopularController::class)->name('product.popular');
+});
+
+Route::namespace('App\Http\Controllers\Favorited')->middleware('jwt.auth')->prefix('favorites')->group(function () {
+    Route::get('/', UsersItemsController::class)->name('favorited.users');
+    Route::post('/{product}', StoreController::class)->name('favorited.store');
+    Route::delete('/{product}', DestroyController::class)->name('favorited.destroy');
+});
+
+Route::namespace('App\Http\Controllers\Cart')->middleware('jwt.auth')->prefix('cart')->group(function () {
+    Route::get('/', UsersItemsController::class)->name('cart.users');
+    Route::post('/{product}', StoreController::class)->name('cart.store');
+    Route::patch('/{product}', UpdateController::class)->name('cart.update');
+    Route::delete('/{product}', DestroyController::class)->name('cart.destroy');
+});
+

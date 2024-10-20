@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isLoading" class="inline-spinner"></div>
+    <div v-if="isLoading" class="inline-spinner" :style="`width: ${size}px; height: ${size}px;`"></div>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default {
             type: Boolean,
             required: true,
         },
+        size: {
+            type: Number,
+            required: false,
+            default: 20,
+        }
     },
 };
 </script>
@@ -19,8 +24,6 @@ export default {
     border: 3px solid rgba(0, 0, 0, 0.1);
     border-top-color: #3498db;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
     animation: spin 1s linear infinite;
     display: inline-block;
     margin: 0 auto; /* Centers the spinner */

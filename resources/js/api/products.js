@@ -32,3 +32,11 @@ export async function updateProduct(product) {
 export async function deleteProduct(id) {
     return await API.delete(`/api/admin/products/${id}`)
 }
+
+export async function getLatestProducts() {
+    return await API.get('/api/products/latest')
+}
+
+export async function getPopularProducts() {
+    return await API.get('/api/products/popular')
+}

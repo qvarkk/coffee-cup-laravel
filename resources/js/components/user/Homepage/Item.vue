@@ -1,6 +1,7 @@
 <template>
     <div class="item">
-        <i class="unfav heart fa-solid fa-heart"></i>
+        <i v-if="!loadingFavorites" @click="addToFavorites" :class="favorited ? 'fav' : 'unfav'" class="heart fa-solid fa-heart"></i>
+        <InlineLoadingSpinner @click="stateStore.addNotification('Подождите...')" class="loading-spinner" :size="25" :is-loading="loadingFavorites"></InlineLoadingSpinner>
         <img class="item-img" :src="image" alt="">
         <span class="item-name">{{ name }}</span>
         <span class="item-description">{{ description }}</span>
@@ -18,18 +19,37 @@
             </span>
         </div>
         <button class="buy-button">
-            Купить
+            <i class="fa-solid fa-basket-shopping"></i>&nbsp;&nbsp;
+            добавить
         </button>
     </div>
 </template>
 
 <script>
+import {useUserStore} from "@/store/authStore.js";
+import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
+import {useHomepageStateStore} from "@/store/homepageStateStore.js";
+
 export default {
     name: "Item",
+    components: {InlineLoadingSpinner},
+
+    setup() {
+        const stateStore = useHomepageStateStore()
+        const authStore = useUserStore()
+        return {stateStore, authStore}
+    },
 
     data() {
         return {
             quantity: 1,
+            loadingFavorites: false,
+        }
+    },
+
+    computed: {
+        favorited() {
+            return this.authStore.favorites.includes(this.id)
         }
     },
 
@@ -42,6 +62,21 @@ export default {
         subtract() {
             if (this.quantity > 1)
                 this.quantity--
+        },
+
+        async addToFavorites() {
+            if (!this.authStore.user) {
+                // TODO: handle unauthorized favorite action
+            } else {
+                this.loadingFavorites = true
+                if (this.favorited) {
+                    await this.authStore.removeFavoritedProduct(this.id)
+                } else {
+                    await this.authStore.addFavoritedProduct(this.id)
+                }
+                await this.authStore.getFavoritedProducts()
+                this.loadingFavorites = false
+            }
         }
     },
 
@@ -59,13 +94,25 @@ export default {
     flex-direction: column;
     align-items: center;
     max-width: 335px;
+    width: 100%;
     padding: 20px;
     gap: 10px;
     box-shadow: 2px 5px 14px 0 #A6A19D30;
     animation: fadeIn 1s;
 }
 
+.item > img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.loading-spinner {
+    margin: 0 !important;
+    align-self: start;
+}
+
 .heart {
+    position: relative;
     cursor: pointer;
     align-self: start;
     font-size: 25px;
@@ -85,6 +132,7 @@ export default {
 }
 
 .item-description {
+    align-self: start;
     text-justify: distribute-center-last;
     margin-top: -4px;
     margin-bottom: 10px;

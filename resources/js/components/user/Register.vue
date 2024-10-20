@@ -18,7 +18,10 @@
             <input v-model="password_confirmation" id="password_confirmation" type="password" class="form-input"
                    placeholder="********"/>
         </div>
-        <input class="form-button" @click.prevent="loginUser" type="button" value="РЕГИСТРАЦИЯ">
+        <button class="form-button" @click.prevent="registerUser">
+            <span v-if="!isLoading">регистрация</span>
+            <InlineLoadingSpinner v-if="isLoading" :is-loading="isLoading"></InlineLoadingSpinner>
+        </button>
         <span>
             Уже есть аккаунт?
             <router-link class="action-link" :to="{ name: 'user.login' }">Войти</router-link>
@@ -27,8 +30,20 @@
 </template>
 
 <script>
+import {registerUser} from "@/api/users.js";
+import {useHomepageStateStore} from "@/store/homepageStateStore.js";
+import {useUserStore} from "@/store/authStore.js";
+import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
+
 export default {
     name: "Login",
+    components: {InlineLoadingSpinner},
+
+    setup() {
+        const stateStore = useHomepageStateStore()
+        const userStore = useUserStore()
+        return {stateStore, userStore}
+    },
 
     data() {
         return {
@@ -36,18 +51,30 @@ export default {
             name: null,
             password: null,
             password_confirmation: null,
+            isLoading: false,
         }
     },
 
     methods: {
         async registerUser() {
-            let res = await registerUser(this.email, this.name, this.password, this.password_confirmation);
-            localStorage.setItem('access_token', res.access_token)
+            this.isLoading = true
+            let res = await registerUser(this.email, this.name, this.password, this.password_confirmation)
+
+            if (res.status === 200) {
+                this.stateStore.addNotification('Успешно! Входим в систему')
+                localStorage.setItem('access_token', res.data.access_token)
+                await this.userStore.fetchUser()
+                this.$router.push({name: 'user.index'})
+            } else {
+                for (const [key, err] of Object.entries(res.response.data.errors))
+                    this.stateStore.addNotification(err[0])
+
+                this.isLoading = false
+            }
         },
 
-        async getCategories() {
-            let res = await get();
-            console.log(res);
+        async loginUser() {
+
         }
     }
 }

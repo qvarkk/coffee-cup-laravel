@@ -9,8 +9,6 @@
             <label for="password">Пароль</label>
             <input v-model="password" id="password" type="password" class="form-input" placeholder="********"/>
         </div>
-        <span v-if="error" class="error">{{ error }}</span>
-        <span v-if="success" class="success">{{ success }}</span>
         <button class="form-button" @click.prevent="loginUser">
             <span v-if="!isLoading">войти</span>
             <InlineLoadingSpinner v-if="isLoading" :is-loading="isLoading"></InlineLoadingSpinner>
@@ -25,40 +23,38 @@
 <script>
 import {loginUser} from "@/api/users.js"
 import {useUserStore} from "@/store/authStore.js";
-import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
+import {useHomepageStateStore} from "@/store/homepageStateStore.js";
 
 export default {
     name: "Login",
     components: {InlineLoadingSpinner},
 
     setup() {
+        const stateStore = useHomepageStateStore()
         const userStore = useUserStore()
-        return {userStore}
+        return {stateStore, userStore}
     },
 
     data() {
         return {
             email: null,
             password: null,
-            error: null,
-            success: null,
             isLoading: false,
         }
     },
 
     methods: {
         async loginUser() {
-            this.error = null
             this.isLoading = true
             let res = await loginUser(this.email, this.password);
             if (res.status === 200) {
-                this.success = 'Успешно! Входим в систему'
+                this.stateStore.addNotification('Успешно! Входим в систему')
                 localStorage.setItem('access_token', res.data.access_token)
                 await this.userStore.fetchUser()
                 this.$router.push({name: 'user.index'})
             } else {
-                this.error = 'Введена неверная информация для входа'
+                this.stateStore.addNotification('Введена неверная информация для входа')
                 this.isLoading = false
             }
         }
@@ -92,16 +88,6 @@ export default {
 .form-input {
     margin-top: 10px;
     width: 100%;
-}
-
-.error {
-    margin-bottom: 10px;
-    color: #f8405d;
-}
-
-.success {
-    margin-bottom: 10px;
-    color: #71ef73;
 }
 
 .form-button {

@@ -42,13 +42,15 @@
 <script>
 import {logoutUser} from "@/api/users.js";
 import {useUserStore} from "@/store/authStore.js";
+import {useHomepageStateStore} from "@/store/homepageStateStore.js";
 
 export default {
     name: "Header",
 
     setup() {
+        const stateStore = useHomepageStateStore()
         const userStore = useUserStore()
-        return {userStore}
+        return {stateStore, userStore}
     },
 
     computed: {
@@ -57,12 +59,9 @@ export default {
         }
     },
 
-    async mounted() {
-        await this.userStore.fetchUser()
-    },
-
     methods: {
         async logoutUser() {
+            this.stateStore.addNotification('Производится выход...')
             await logoutUser()
             this.userStore.logout()
             this.$router.push({ name: 'user.login' })

@@ -21,6 +21,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use({}, error => {
 
     if (error.response.data.message === 'Token has expired' ||
+        // nah this one doesn't make sense, but idk how to fix it 💀
         error.request.responseURL === 'http://localhost:8000/api/auth/me' && localStorage.getItem('access_token')) {
         return axios.post(`${baseURL}/api/auth/refresh`, {}, {
             headers: {
@@ -35,6 +36,7 @@ api.interceptors.response.use({}, error => {
     }
 
     if (error.status === 401) {
+        localStorage.removeItem('access_token')
         router.push({name: 'user.login'})
     }
 

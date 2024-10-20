@@ -5,7 +5,7 @@ export async function loginUser(email, password) {
 }
 
 export async function registerUser(email, name, password, password_confirmation) {
-    return await API.post('api/auth/login', {
+    return await API.post('api/users', {
         email: email,
         name: name,
         password: password,
