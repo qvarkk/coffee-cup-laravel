@@ -44,6 +44,8 @@ import {getLatestProducts, getPopularProducts} from "@/api/products.js";
 import InlineLoadingSpinner from "@/components/common/InlineLoadingSpinner.vue";
 import AboutUs from "@/components/user/Homepage/AboutUs.vue";
 import {useUserStore} from "@/store/authStore.js";
+import FavoritesModule from "@/components/user/Homepage/CartModule.vue";
+import CartModule from "@/components/user/Homepage/CartModule.vue";
 
 export default {
     name: "Homepage",
@@ -63,6 +65,7 @@ export default {
     },
 
     components: {
+        CartModule,
         AboutUs,
         InlineLoadingSpinner,
         Banner,

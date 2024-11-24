@@ -4,8 +4,8 @@ export async function getCartProducts() {
     return await API.get('/api/cart')
 }
 
-export async function addProductToCart(productId) {
-    return await API.post(`/api/cart/${productId}`)
+export async function addProductToCart(productId, quantity) {
+    return await API.post(`/api/cart/${productId}`, { quantity: quantity })
 }
 
 export async function removeProductFromCart(productId) {

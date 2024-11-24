@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cart\StoreRequest;
 use App\Models\Cart;
 use App\Models\Product;
 
@@ -11,12 +12,14 @@ class StoreController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Product $product)
+    public function __invoke(Product $product, StoreRequest $request)
     {
+        $data = $request->validated();
+
         Cart::create([
             'product_id' => $product->id,
             'user_id' => auth()->id(),
-            'quantity' => 1
+            'quantity' => $data['quantity']
         ]);
 
         return response('success', 200);

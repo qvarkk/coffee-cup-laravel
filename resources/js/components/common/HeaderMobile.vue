@@ -25,7 +25,10 @@
 
         <div class="user-interaction">
             <a href="#"><img src="/images/icons/favorites.svg" alt="Favorites"></a>
-            <a href="#"><img src="/images/icons/basket.svg" alt="Cart"></a>
+            <div style="position: relative">
+                <img src="/images/icons/basket.svg" alt="Cart" style="cursor: pointer" @click="switchCart">
+                <CartModule v-show="showCart" right="-345px" />
+            </div>
         </div>
 
         <nav class="nav">
@@ -46,13 +49,21 @@
 <script>
 import {useUserStore} from "@/store/authStore.js";
 import {logoutUser} from "@/api/users.js";
+import CartModule from "@/components/user/Homepage/CartModule.vue";
 
 export default {
     name: "HeaderMobile",
+    components: {CartModule},
 
     setup() {
         const userStore = useUserStore()
         return {userStore}
+    },
+
+    data() {
+        return {
+            showCart: false,
+        }
     },
 
     computed: {
@@ -70,6 +81,11 @@ export default {
             await logoutUser()
             this.userStore.logout()
             this.$router.push({name: 'user.login'})
+        },
+
+        switchCart() {
+            if (this.userStore.user)
+                this.showCart = !this.showCart
         }
     }
 }
@@ -137,7 +153,8 @@ export default {
     gap: 15px;
 }
 
-.user-interaction > a > img {
+.user-interaction > a > img,
+.user-interaction > div > img {
     height: 54px;
 }
 

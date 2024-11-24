@@ -17,6 +17,10 @@ export async function createProduct(product) {
     )
 }
 
+export async function getProduct(id) {
+    return await API.get(`/api/products/${id}`);
+}
+
 export async function updateProduct(product) {
     return await API.patch(`/api/admin/products/${product.id}`, {
         name: product.name,

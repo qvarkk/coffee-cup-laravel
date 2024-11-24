@@ -39,14 +39,6 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->middleware(['jw
         Route::patch('/{user}', UpdateController::class)->name('admin.user.update');
         Route::delete('/{user}', DestroyController::class)->name('admin.user.destroy');
     });
-
-//    Route::namespace('Review')->prefix('reviews')->group(function () {
-//        Route::get('/', IndexController::class)->name('admin.review.index');
-//        Route::get('/{review}', ShowController::class)->name('admin.review.show');
-//        Route::post('/', StoreController::class)->name('admin.review.store');
-//        Route::patch('/{review}', UpdateController::class)->name('admin.review.update');
-//        Route::delete('/{review}', DestroyController::class)->name('admin.review.destroy');
-//    });
 });
 
 Route::namespace('App\Http\Controllers\User')->prefix('users')->group(function () {
@@ -56,6 +48,7 @@ Route::namespace('App\Http\Controllers\User')->prefix('users')->group(function (
 Route::namespace('App\Http\Controllers\Product')->prefix('products')->group(function () {
     Route::get('/latest', LatestController::class)->name('product.latest');
     Route::get('/popular', PopularController::class)->name('product.popular');
+    Route::get('/{product}', ShowController::class)->name('product.show');
 });
 
 Route::namespace('App\Http\Controllers\Favorited')->middleware('jwt.auth')->prefix('favorites')->group(function () {

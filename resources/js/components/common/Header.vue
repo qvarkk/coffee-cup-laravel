@@ -32,7 +32,10 @@
                 <div class="user-interaction">
                     <a href="#"><img src="/images/icons/search.svg" alt="Search"></a>
                     <a href="#"><img src="/images/icons/favorites.svg" alt="Favorites"></a>
-                    <a href="#"><img src="/images/icons/basket.svg" alt="Cart"></a>
+                    <div style="position: relative">
+                        <img src="/images/icons/basket.svg" alt="Cart" style="cursor: pointer" @click="switchCart">
+                        <CartModule v-show="showCart" :right="0" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,14 +46,22 @@
 import {logoutUser} from "@/api/users.js";
 import {useUserStore} from "@/store/authStore.js";
 import {useHomepageStateStore} from "@/store/homepageStateStore.js";
+import CartModule from "@/components/user/Homepage/CartModule.vue";
 
 export default {
     name: "Header",
+    components: {CartModule},
 
     setup() {
         const stateStore = useHomepageStateStore()
         const userStore = useUserStore()
         return {stateStore, userStore}
+    },
+
+    data() {
+        return {
+            showCart: false,
+        }
     },
 
     computed: {
@@ -65,6 +76,11 @@ export default {
             await logoutUser()
             this.userStore.logout()
             this.$router.push({ name: 'user.login' })
+        },
+
+        switchCart() {
+            if (this.userStore.user)
+                this.showCart = !this.showCart
         }
     }
 }

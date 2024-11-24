@@ -1,8 +1,13 @@
 <template>
     <div class="item">
-        <i v-if="!loadingFavorites" @click="addToFavorites" :class="favorited ? 'fav' : 'unfav'" class="heart fa-solid fa-heart"></i>
-        <InlineLoadingSpinner @click="stateStore.addNotification('Подождите...')" class="loading-spinner" :size="25" :is-loading="loadingFavorites"></InlineLoadingSpinner>
-        <img class="item-img" :src="image" alt="">
+        <i v-if="!loadingFavorites" @click="addToFavorites" :class="favorited ? 'fav' : 'unfav'"
+           class="heart fa-solid fa-heart"></i>
+        <InlineLoadingSpinner @click="stateStore.addNotification('Подождите...')" class="loading-spinner" :size="25"
+                              :is-loading="loadingFavorites"></InlineLoadingSpinner>
+        <img v-show="imageLoaded" class="item-img" :src="image" alt="" @load="onImgLoad">
+        <div v-show="!imageLoaded" class="item-img-loading">
+            <InlineLoadingSpinner :size="50" :isLoading="true"></InlineLoadingSpinner>
+        </div>
         <span class="item-name">{{ name }}</span>
         <span class="item-description">{{ description }}</span>
         <div class="item-actions">
@@ -18,10 +23,15 @@
                 {{ Math.floor(price * quantity) }}&#8381;
             </span>
         </div>
-        <button class="buy-button">
-            <i class="fa-solid fa-basket-shopping"></i>&nbsp;&nbsp;
-            добавить
+        <button v-if="!loadingCartButton" class="buy-button" @click.prevent="addToCart">
+            <i class="fa-solid fa-basket-shopping"></i>
+            &nbsp;&nbsp;
+
+            <span v-if="!this.carted">добавить</span>
+            <span v-else>{{ this.carted.quantity }} шт.</span>
         </button>
+        <InlineLoadingSpinner @click="stateStore.addNotification('Подождите...')" class="loading-spinner-cart" :size="25"
+                              :is-loading="loadingCartButton"></InlineLoadingSpinner>
     </div>
 </template>
 
@@ -44,18 +54,27 @@ export default {
         return {
             quantity: 1,
             loadingFavorites: false,
+            loadingCartButton: false,
+            imageLoaded: false,
         }
     },
 
     computed: {
         favorited() {
             return this.authStore.favorites.includes(this.id)
+        },
+        carted() {
+            return this.authStore.cartItems.find(o => o.item.id === this.id)
         }
     },
 
     methods: {
+        onImgLoad() {
+            this.imageLoaded = true
+        },
+
         add() {
-            if (this.quantity < this.in_stock)
+            if (this.quantity < 99)
                 this.quantity++
         },
 
@@ -66,7 +85,7 @@ export default {
 
         async addToFavorites() {
             if (!this.authStore.user) {
-                // TODO: handle unauthorized favorite action
+                this.stateStore.addNotification('Авторизуйтесь для добавления в избранное')
             } else {
                 this.loadingFavorites = true
                 if (this.favorited) {
@@ -76,6 +95,22 @@ export default {
                 }
                 await this.authStore.getFavoritedProducts()
                 this.loadingFavorites = false
+            }
+        },
+
+        async addToCart() {
+            if (!this.authStore.user) {
+                this.stateStore.addNotification('Авторизуйтесь для добавления в корзину')
+            } else {
+                this.loadingCartButton = true
+                if (this.carted) {
+                    await this.authStore.updateCartProduct(this.id, this.carted.quantity + this.quantity)
+                } else {
+                    await this.authStore.addProductToCart(this.id, this.quantity)
+                }
+
+                await this.authStore.getCartProducts()
+                this.loadingCartButton = false
             }
         }
     },
@@ -106,9 +141,22 @@ export default {
     max-height: 200px;
 }
 
+.item-img-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+}
+
 .loading-spinner {
     margin: 0 !important;
     align-self: start;
+}
+
+.loading-spinner-cart {
+    margin: 0 !important;
+    align-self: center;
 }
 
 .heart {

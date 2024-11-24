@@ -32,7 +32,9 @@ api.interceptors.response.use({}, error => {
 
             error.config.headers['authorization'] = `Bearer ${res.data.access_token}`
             return api.request(error.config)
-        })
+        }).catch(err => {
+            localStorage.removeItem('access_token')
+        });
     }
 
     if (error.status === 401) {
